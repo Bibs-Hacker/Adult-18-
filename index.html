@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON ADULT VAULT - 18+ ONLY</title>
+    <style>
+        /* ========================================
+           MEGA NEON ADULT CONTENT SYSTEM v3.0
+           Splash + Password Gate + Categories | Full Animation
+           For Adults 18+ Only - Copy-Paste Ready
+           ======================================== */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Orbitron', 'Arial', sans-serif; 
+            background: #000; 
+            color: #0ff; 
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 50%, #ff00ff 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, #00ffff 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, #ff00ff 0%, transparent 50%);
+            background-size: 200% 200%;
+            animation: neonPulse 10s ease-in-out infinite;
+        }
+        @keyframes neonPulse {
+            0%, 100% { background-position: 0% 0%, 100% 100%, 50% 50%; }
+            50% { background-position: 100% 100%, 0% 0%, 50% 50%; }
+        }
+
+        /* NEON GLOW UTILS */
+        .neon-text { 
+            text-shadow: 
+                0 0 5px #0ff, 
+                0 0 10px #0ff, 
+                0 0 20px #0ff, 
+                0 0 40px #f0f, 
+                0 0 80px #f0f;
+            animation: flicker 3s infinite alternate;
+        }
+        .neon-border { 
+            border: 2px solid #0ff; 
+            box-shadow: 
+                0 0 10px #0ff, 
+                0 0 20px #0ff, 
+                inset 0 0 10px #0ff;
+            animation: borderGlow 2s ease-in-out infinite alternate;
+        }
+        .neon-btn { 
+            background: #000; 
+            color: #0ff; 
+            border: 2px solid #0ff; 
+            padding: 12px 25px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            border-radius: 8px;
+            box-shadow: 0 0 20px #0ff, inset 0 0 10px #0ff;
+            transition: all 0.3s;
+        }
+        .neon-btn:hover { 
+            background: #0ff; 
+            color: #000; 
+            box-shadow: 0 0 40px #0ff, 0 0 60px #f0f; 
+            transform: scale(1.1);
+        }
+        @keyframes flicker { 
+            0%, 100% { opacity: 1; } 
+            50% { opacity: 0.8; } 
+        }
+        @keyframes borderGlow { 
+            from { box-shadow: 0 0 10px #0ff; } 
+            to { box-shadow: 0 0 30px #0ff, 0 0 50px #f0f; } 
+        }
+
+        /* SPLASH SCREEN */
+        #splash { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            z-index: 1001; transition: opacity 2s ease-out;
+        }
+        #splash.fade { opacity: 0; pointer-events: none; }
+        #logo {
+            width: 200px; height: 200px; margin-bottom: 80px; position: relative;
+            animation: logoSpin 10s linear infinite, logoPulse 2s ease-in-out infinite;
+        }
+        #logo::before {
+            content: '🔥'; font-size: 200px; color: #0ff;
+            text-shadow: 0 0 20px #0ff, 0 0 40px #f0f, 0 0 60px #ff00ff;
+            animation: logoGlow 1.5s ease-in-out infinite alternate;
+        }
+        #logo::after {
+            content: 'NEON VAULT'; position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%);
+            font-size: 1.5em; font-weight: bold; color: #0ff;
+            text-shadow: 0 0 10px #0ff, 0 0 20px #f0f;
+        }
+        @keyframes logoSpin { to { transform: rotate(360deg); } }
+        @keyframes logoPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        @keyframes logoGlow { from { text-shadow: 0 0 20px #0ff; } to { text-shadow: 0 0 40px #0ff, 0 0 60px #f0f; } }
+
+        /* PASSWORD GATE */
+        #password-gate { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #000; display: none; flex-direction: column; justify-content: center; align-items: center; 
+            z-index: 1000; transition: all 1.5s ease-out;
+        }
+        #password-gate.active { display: flex; }
+        #password-gate.hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
+        #password-input { 
+            padding: 18px; font-size: 20px; border: 3px solid #ff00ff; background: #111; color: #0ff; 
+            border-radius: 12px; text-align: center; margin: 15px; width: 300px;
+            box-shadow: 0 0 20px #ff00ff;
+        }
+        #password-btn { 
+            padding: 18px 40px; background: #ff00ff; color: #000; border: none; 
+            border-radius: 12px; cursor: pointer; font-weight: bold; margin: 15px;
+            box-shadow: 0 0 30px #ff00ff;
+        }
+        #password-btn:hover { background: #fff; transform: translateY(-3px); }
+
+        /* WARNING BLINK */
+        #warning { 
+            font-size: 1.5em; color: #f00; text-align: center; margin: 20px; 
+            animation: blinkWarning 1s infinite; font-weight: bold;
+        }
+        @keyframes blinkWarning {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px #f00; }
+            50% { opacity: 0.3; text-shadow: none; }
+        }
+
+        /* MAIN CONTENT */
+        #main-content { display: none; padding: 20px; }
+        #main-content.unlocked { display: block; animation: fadeIn 1s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        header { text-align: center; margin: 30px 0; }
+        h1 { font-size: 3em; background: linear-gradient(45deg, #0ff, #f0f, #ff0, #f0f, #0ff); 
+             -webkit-background-clip: text; background-clip: text; color: transparent; 
+             animation: rainbow 5s linear infinite; }
+        @keyframes rainbow { to { background-position: 200%; } }
+
+        /* CATEGORY TABS */
+        .category-tabs { 
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 30px 0; 
+        }
+        .tab { 
+            padding: 12px 25px; background: #111; border: 2px solid #0ff; border-radius: 50px; 
+            cursor: pointer; font-weight: bold; transition: all 0.4s;
+            box-shadow: 0 0 15px #0ff;
+        }
+        .tab.active, .tab:hover { 
+            background: #0ff; color: #000; 
+            box-shadow: 0 0 30px #0ff, 0 0 50px #f0f; 
+            transform: translateY(-5px);
+        }
+
+        /* VIDEO GRID */
+        .video-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 25px; max-width: 1400px; height: 600px; margin: 0 auto;
+        }
+        .video-item { 
+            background: #111; border-radius: 15px; overflow: hidden; 
+            transition: all 0.4s; position: relative;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        .video-item:hover { 
+            transform: translateY(-10px) scale(1.03); 
+            box-shadow: 0 0 40px #0ff, 0 0 60px #f0f, 0 0 80px #ff00ff;
+        }
+        .video-item h3 { 
+            padding: 15px; text-align: center; color: #ff00ff; font-size: 1.2em;
+            background: linear-gradient(90deg, #0ff, #f0f); 
+            -webkit-background-clip: text; color: transparent;
+        }
+        .video-item video, .video-item iframe { 
+            width: 100%; height: 200px; object-fit: cover; 
+            border-top: 2px solid #0ff; border-bottom: 2px solid #ff00ff;
+        }
+
+        /* CATEGORY FILTER */
+        .category { display: none; }
+        .category.active { display: grid; animation: fadeIn 0.8s; }
+
+        /* FOOTER */
+        footer { 
+            text-align: center; padding: 30px; background: #111; color: #0ff; font-size: 0.9em; 
+            margin-top: 50px; border-top: 2px solid #0ff;
+            box-shadow: 0 -10px 30px rgba(0, 255, 255, 0.2);
+        }
+        footer a { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .video-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 2em; }
+            .tab { padding: 10px 20px; font-size: 0.9em; }
+            #logo { width: 150px; height: 150px; }
+            #logo::before { font-size: 150px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- SPLASH SCREEN -->
+    <div id="splash">
+        <div id="logo"></div>
+        <h1 class="neon-text">WELCOME TO THE NEON VAULT</h1>
+        <p style="margin-top: 20px; font-size: 1.4em;">Loading forbidden desires...</p>
+    </div>
+
+    <!-- PASSWORD GATE -->
+    <div id="password-gate">
+        <h1 class="neon-text">ADULT VAULT - 18+ ONLY</h1>
+        <div id="warning">⚠️ UNDER 18? LEAVE NOW - ACCESS DENIED ⚠️</div>
+        <p style="margin: 20px; font-size: 1.3em;">Enter password to access premium content:</p>
+        <input type="password" id="password-input" placeholder="Default: adult18">
+        <button id="password-btn" class="neon-btn">UNLOCK VAULT</button>
+        <p style="font-size: 1.2em; margin-top: 25px; color: #ff00ff;">
+            This system is restricted to adults 18+. Legal consensual content only.
+        </p>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content">
+        <header>
+            <h1>NEON ADULT VAULT</h1>
+            <p style="color: #0ff; margin: 15px 0;">Choose your fantasy below</p>
+        </header>
+
+        <!-- CATEGORY TABS -->
+        <div class="category-tabs">
+            <div class="tab active" data-cat="all">ALL</div>
+            <div class="tab" data-cat="solo">SOLO</div>
+            <div class="tab" data-cat="couples">COUPLES</div>
+            <div class="tab" data-cat="fetish">FETISH</div>
+            <div class="tab" data-cat="anal">ANAL</div>
+            <div class="tab" data-cat="oral">ORAL</div>
+            <div class="tab" data-cat="bdsm">BDSM</div>
+        </div>
+
+        <!-- VIDEO CATEGORIES -->
+        <div id="all" class="category video-grid active">
+            <!-- ALL VIDEOS -->
+            <div class="video-item" data-tags="solo">
+                <h3>Neon Solo Tease</h3>
+                <video controls muted loop>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-item" data-tags="couples">
+                <h3>Passionate Duo</h3>
+                <video controls muted loop>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-item" data-tags="fetish bdsm">
+                <h3>Bondage Glow</h3>
+                <video controls muted loop>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4">
+                </video>
+            </div>
+            <!-- Add more... -->
+        </div>
+
+        <div id="solo" class="category video-grid">
+            <div class="video-item" data-tags="solo">
+                <h3>Mirror Play</h3>
+                <video controls muted loop>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <div id="couples" class="category video-grid">
+            <div class="video-item" data-tags="couples">
+                <h3>Intimate Connection</h3>
+                <video controls muted loop>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <div id="fetish" class="category video-grid">
+            <div class="video-item" data-tags="fetish">
+                <h3>Latex Dreams</h3>
+                <video controls muted loop>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <div id="anal" class="category video-grid">
+            <div class="video-item" data-tags="anal">
+                <h3>Deep Dive</h3>
+                <video controls muted loop>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <div id="oral" class="category video-grid">
+            <div class="video-item" data-tags="oral">
+                <h3>Sensual Art</h3>
+                <video controls muted loop>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <div id="bdsm" class="category video-grid">
+            <div class="video-item" data-tags="bdsm">
+                <h3>Power Play</h3>
+                <video controls muted loop>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>18+ ONLY | LEGAL CONSENSUAL CONTENT | <a href="#">PRIVACY</a> | <a href="#">TERMS</a></p>
+        <p style="margin-top: 10px; color: #ff00ff;">NEON VAULT v3.0 — Powered by Desire</p>
+    </footer>
+
+    <script>
+        // SPLASH TO PASSWORD GATE
+        const splash = document.getElementById('splash');
+        const gate = document.getElementById('password-gate');
+        const main = document.getElementById('main-content');
+        const input = document.getElementById('password-input');
+        const btn = document.getElementById('password-btn');
+        const DEFAULT_PASSWORD = 'adult18'; // CHANGE THIS!
+
+        // Auto fade splash after 3 seconds to password gate
+        setTimeout(() => {
+            splash.classList.add('fade');
+            setTimeout(() => {
+                splash.style.display = 'none';
+                gate.classList.add('active');
+            }, 2000);
+        }, 3000);
+
+        // PASSWORD UNLOCK
+        btn.addEventListener('click', unlock);
+        input.addEventListener('keypress', e => { if (e.key === 'Enter') unlock(); });
+
+        function unlock() {
+            if (input.value === DEFAULT_PASSWORD) {
+                gate.classList.add('hidden');
+                setTimeout(() => {
+                    gate.style.display = 'none';
+                    main.classList.add('unlocked');
+                }, 1500);
+            } else {
+                alert('ACCESS DENIED. Incorrect password.');
+                input.value = '';
+                input.style.borderColor = '#f00';
+                setTimeout(() => input.style.borderColor = '#ff00ff', 1000);
+            }
+        }
+
+        // CATEGORY TABS
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const cat = tab.getAttribute('data-cat');
+                
+                // Update active tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show category
+                document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+                if (cat === 'all') {
+                    document.getElementById('all').classList.add('active');
+                } else {
+                    document.getElementById(cat).classList.add('active');
+                }
+            });
+        });
+
+        // Auto-play on hover (desktop)
+        document.querySelectorAll('video').forEach(v => {
+            v.addEventListener('mouseenter', () => v.play());
+            v.addEventListener('mouseleave', () => v.pause());
+        });
+    </script>
+</body>
+  </html>
